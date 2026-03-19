@@ -5,7 +5,7 @@ export const categoryIconOptions = [];
 
 export const defaultAvatar = "https://mc-heads.net/avatar/Steve/128";
 const SUPABASE_URL = "https://yafosraqihgmxrcljlzw.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhZm9zcmFxaWhnbXhyY2xqbHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MDgxNzAsImV4cCI6MjA4OTQ4NDE3MH0.aYX3PnUZnVEGeptkUknRlrj9aNJ4vJ1oGmUa1tB1WTw";
+const SUPABASE_ANON_KEY = "sb_publishable_uz3i3GKrMSPsoioScYWsfw_3dy-4NjN";
 const regionLabels = {
   NA: "North America",
   EU: "Europe",
