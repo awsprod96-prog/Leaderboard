@@ -8,6 +8,7 @@ import {
   createPlayer,
   openPlayerModal,
   refreshCategories,
+  refreshIconOptions,
   createCategory,
   deleteCategory
 } from "./shared.js";
@@ -281,6 +282,7 @@ searchInput.addEventListener("input", renderLeaderboard);
 
 async function initialize() {
   await refreshCategories();
+  await refreshIconOptions();
   activeCategory = categories[0]?.id ?? "overall";
   populateCategoryIconOptions();
   createTabs();

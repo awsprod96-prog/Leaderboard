@@ -1,18 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 export const categories = [];
-export const categoryIconOptions = [
-  { value: "\uD83C\uDFC6", label: "Trophy" },
-  { value: "\u2B21", label: "Hex" },
-  { value: "\u2665", label: "Heart" },
-  { value: "\u2697", label: "Potion" },
-  { value: "\u25C9", label: "Orb" },
-  { value: "\u2694", label: "Swords" },
-  { value: "\uD83E\uDE93", label: "Axe" },
-  { value: "\uD83D\uDEE1", label: "Shield" },
-  { value: "\u2728", label: "Sparkles" },
-  { value: "\u2605", label: "Star" }
-];
+export const categoryIconOptions = [];
 
 export const defaultAvatar = "https://mc-heads.net/avatar/Steve/128";
 const SUPABASE_URL = "https://yafosraqihgmxrcljlzw.supabase.co";
@@ -132,6 +121,21 @@ export async function refreshCategories() {
   const items = data ?? [];
   categories.splice(0, categories.length, ...items);
   return categories;
+}
+
+export async function refreshIconOptions() {
+  const { data, error } = await supabase
+    .from("icon_options")
+    .select("value, label, created_at")
+    .order("created_at", { ascending: true })
+    .order("label", { ascending: true });
+
+  if (error) {
+    throw new Error("Unable to load icon options.");
+  }
+
+  categoryIconOptions.splice(0, categoryIconOptions.length, ...(data ?? []));
+  return categoryIconOptions;
 }
 
 export async function createCategory(payload) {
