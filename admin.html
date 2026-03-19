@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piggy Leaderboard Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tabulator-tables@6.4.0/dist/css/tabulator_midnight.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a href="/" class="brand" style="text-decoration: none;">PIGGY</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/" class="nav-link">Public</a>
+        <a href="/admin.html" class="nav-link is-active">Admin</a>
+        <a href="#" class="nav-link">Discords</a>
+      </nav>
+      <label class="searchbar" for="searchInput">
+        <span>Search</span>
+        <input id="searchInput" type="search" placeholder="Search player..." autocomplete="off">
+      </label>
+    </header>
+
+    <main class="content-grid">
+      <section class="board-panel">
+        <div class="mode-tabs" id="modeTabs" aria-label="Leaderboard categories"></div>
+
+        <div class="board-card">
+          <div class="board-toolbar">
+            <button class="info-chip" type="button">Admin Preview</button>
+            <div class="server-meta">
+              <span class="meta-label">Server IP</span>
+              <span class="meta-value">piggy.club</span>
+            </div>
+          </div>
+
+          <div class="board-header">
+            <span>#</span>
+            <span>Player</span>
+            <span>Region</span>
+            <span>Tiers</span>
+          </div>
+
+          <div id="leaderboardRows" class="board-rows"></div>
+        </div>
+      </section>
+
+      <aside class="control-panel">
+        <div class="panel-copy">
+          <p class="eyebrow">Live Editor</p>
+          <h1>Manage leaderboard entries</h1>
+          <p>Add players through the form below. New entries are inserted into the selected category and sorted
+            automatically by points.</p>
+        </div>
+
+        <div class="category-actions">
+          <button id="deleteCategoryBtn" class="submit-btn submit-btn-danger" type="button">Delete selected category</button>
+        </div>
+
+        <form id="categoryForm" class="player-form category-form">
+          <div class="form-row split">
+            <div>
+              <label for="categoryName">New category</label>
+              <input id="categoryName" name="categoryName" type="text" placeholder="Sword" required>
+            </div>
+            <div>
+              <label for="categoryIcon">Icon</label>
+              <select id="categoryIcon" name="categoryIcon"></select>
+            </div>
+          </div>
+          <button class="submit-btn submit-btn-secondary" type="submit">Add category</button>
+        </form>
+
+        <form id="playerForm" class="player-form">
+          <div class="form-row">
+            <label for="playerName">Player name</label>
+            <input id="playerName" name="playerName" type="text" placeholder="Marlowww" required>
+          </div>
+
+          <div class="form-row split">
+            <div>
+              <label for="playerRegion">Region</label>
+              <select id="playerRegion" name="playerRegion">
+                <option value="NA">NA</option>
+                <option value="EU">EU</option>
+                <option value="AS">AS</option>
+                <option value="SA">SA</option>
+              </select>
+            </div>
+            <div>
+              <label for="playerCategory">Category</label>
+              <select id="playerCategory" name="playerCategory"></select>
+            </div>
+          </div>
+
+          <div class="form-row split">
+            <div>
+              <label for="playerRank">Rank title</label>
+              <input id="playerRank" name="playerRank" type="text" placeholder="Combat Grandmaster" required>
+            </div>
+            <div>
+              <label for="playerPoints">Points</label>
+              <input id="playerPoints" name="playerPoints" type="number" min="0" placeholder="450" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="playerAvatar">Avatar URL</label>
+            <input id="playerAvatar" name="playerAvatar" type="url" placeholder="https://example.com/avatar.png">
+          </div>
+
+          <div class="form-row">
+            <label for="playerTiers">Tier badges</label>
+            <input id="playerTiers" name="playerTiers" type="text" placeholder="Sword:HT1, Axe:HT1, SMP:LT1">
+            <small>Format: Skill:Tier, separated by commas.</small>
+          </div>
+
+          <button class="submit-btn" type="submit">Add player</button>
+        </form>
+
+        <section class="admin-table-panel">
+          <div class="admin-head">
+            <div>
+              <p class="eyebrow">Overview</p>
+              <h2>Leaderboard table</h2>
+            </div>
+            <p class="admin-note">Rows are ranked automatically by points for the selected category.</p>
+          </div>
+          <div id="adminTable"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6.4.0/dist/js/tabulator.min.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piggy Leaderboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a href="/" class="brand" style="text-decoration: none;">PIGGY</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/" class="nav-link is-active">Public</a>
+        <a href="/admin.html" class="nav-link">Admin</a>
+        <a href="#" class="nav-link">Discords</a>
+      </nav>
+      <label class="searchbar" for="searchInput">
+        <span>Search</span>
+        <input id="searchInput" type="search" placeholder="Search player..." autocomplete="off">
+      </label>
+    </header>
+
+    <main class="content-grid content-grid-public">
+      <section class="board-panel board-panel-full">
+        <div class="mode-tabs" id="modeTabs" aria-label="Leaderboard categories"></div>
+
+        <div class="board-card">
+          <div class="board-toolbar">
+            <button class="info-chip" type="button">Leaderboard</button>
+            <div class="server-meta">
+              <span class="meta-label">Server IP</span>
+              <span class="meta-value">piggy.club</span>
+            </div>
+          </div>
+
+          <div class="board-header">
+            <span>#</span>
+            <span>Player</span>
+            <span>Region</span>
+            <span>Tiers</span>
+          </div>
+
+          <div id="leaderboardRows" class="board-rows"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="js/public.js"></script>
+</body>
+</html>
