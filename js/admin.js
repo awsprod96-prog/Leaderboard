@@ -6,6 +6,8 @@ import {
   parseTiers,
   loadCategory,
   createPlayer,
+  deletePlayer,
+  getCategoryName,
   openPlayerModal,
   refreshCategories,
   refreshIconOptions,
@@ -29,6 +31,27 @@ const playerCategory = document.getElementById("playerCategory");
 let activeCategory = "overall";
 let adminTable;
 let visibleEntries = [];
+
+async function removePlayerFromActiveCategory(player) {
+  const shouldDelete = window.confirm(
+    `Delete "${player.name}" from ${getCategoryName(activeCategory)}?`
+  );
+
+  if (!shouldDelete) {
+    return;
+  }
+
+  try {
+    await deletePlayer(player.id);
+    leaderboardData[activeCategory] = (leaderboardData[activeCategory] ?? [])
+      .filter((entry) => entry.id !== player.id);
+    renderLeaderboard();
+    await syncAdminTable();
+    document.getElementById("playerModal")?.classList.remove("is-open");
+  } catch (error) {
+    window.alert(error.message);
+  }
+}
 
 function createTabs() {
   modeTabs.innerHTML = "";
@@ -250,6 +273,25 @@ playerForm.addEventListener("submit", async (event) => {
   }
 });
 
+function openAdminPlayerDetails(player) {
+  const categoryEntries = leaderboardData[activeCategory] ?? [];
+  const position = categoryEntries.findIndex((entry) => entry.id === player.id) + 1;
+
+  openPlayerModal(player, {
+    category: activeCategory,
+    position,
+    actions: [
+      {
+        label: "Delete player",
+        variant: "danger",
+        onClick: async () => {
+          await removePlayerFromActiveCategory(player);
+        }
+      }
+    ]
+  });
+}
+
 leaderboardRows.addEventListener("click", (event) => {
   const row = event.target.closest(".board-row-clickable");
   if (!row) {
@@ -257,10 +299,9 @@ leaderboardRows.addEventListener("click", (event) => {
   }
 
   const player = visibleEntries.find((entry) => entry.id === Number(row.dataset.entryId));
-  const position = visibleEntries.findIndex((entry) => entry.id === Number(row.dataset.entryId)) + 1;
 
   if (player) {
-    openPlayerModal(player, { category: activeCategory, position });
+    openAdminPlayerDetails(player);
   }
 });
 
@@ -280,6 +321,17 @@ leaderboardRows.addEventListener("keydown", (event) => {
 
 searchInput.addEventListener("input", renderLeaderboard);
 
+function attachAdminTableEvents() {
+  if (!adminTable) {
+    return;
+  }
+
+  adminTable.on("rowClick", (_event, row) => {
+    const player = row.getData();
+    openAdminPlayerDetails(player);
+  });
+}
+
 async function initialize() {
   await refreshCategories();
   await refreshIconOptions();
@@ -287,6 +339,7 @@ async function initialize() {
   populateCategoryIconOptions();
   createTabs();
   initAdminTable();
+  attachAdminTableEvents();
   await setActiveCategory(activeCategory);
 }
 

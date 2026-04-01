@@ -891,6 +891,50 @@ body::before {
   background: rgba(20, 31, 48, 0.86);
 }
 
+.player-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.player-modal-action-btn {
+  min-width: 140px;
+  padding: 11px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(26, 39, 61, 0.92);
+  color: var(--text);
+  font-family: "Oxanium", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.player-modal-action-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(110, 179, 255, 0.4);
+  background: rgba(35, 51, 80, 0.95);
+}
+
+.player-modal-action-btn.is-danger {
+  border-color: rgba(255, 102, 124, 0.4);
+  background: linear-gradient(90deg, rgba(255, 109, 125, 0.18), rgba(255, 154, 90, 0.18));
+  color: #ffd7db;
+}
+
+.player-modal-action-btn.is-danger:hover {
+  border-color: rgba(255, 102, 124, 0.65);
+  background: linear-gradient(90deg, rgba(255, 109, 125, 0.3), rgba(255, 154, 90, 0.3));
+}
+
+.player-modal-action-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
 @media (max-width: 1180px) {
   .content-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -1004,6 +1048,14 @@ body::before {
 
   .player-modal-position-card {
     grid-template-columns: 1fr;
+  }
+
+  .player-modal-actions {
+    justify-content: stretch;
+  }
+
+  .player-modal-action-btn {
+    width: 100%;
   }
 
   body::before {

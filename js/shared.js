@@ -107,6 +107,19 @@ export async function createPlayer(payload) {
   return mapPlayer(data);
 }
 
+export async function deletePlayer(playerId) {
+  const { error } = await supabase
+    .from("players")
+    .delete()
+    .eq("id", playerId);
+
+  if (error) {
+    throw new Error(error.message || "Unable to delete player.");
+  }
+
+  return { success: true, id: playerId };
+}
+
 export async function refreshCategories() {
   const { data, error } = await supabase
     .from("categories")
@@ -227,6 +240,23 @@ export function openPlayerModal(player, options) {
   const content = overlay.querySelector(".player-modal-content");
   const positionBadgeClass = options.position <= 3 ? ` top-${options.position}` : "";
   const nameMcUrl = `https://namemc.com/search?q=${encodeURIComponent(player.name)}`;
+  const actionsMarkup = options.actions?.length
+    ? `
+      <div class="player-modal-actions">
+        ${options.actions
+          .map((action, index) => `
+            <button
+              class="player-modal-action-btn${action.variant === "danger" ? " is-danger" : ""}"
+              type="button"
+              data-player-modal-action="${index}"
+            >
+              ${action.label}
+            </button>
+          `)
+          .join("")}
+      </div>
+    `
+    : "";
 
   content.innerHTML = `
     <div class="player-modal-header">
@@ -257,7 +287,28 @@ export function openPlayerModal(player, options) {
         ${buildTierMarkup(player.tiers)}
       </div>
     </div>
+
+    ${actionsMarkup}
   `;
+
+  content.querySelectorAll("[data-player-modal-action]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const actionIndex = Number(button.dataset.playerModalAction);
+      const action = options.actions?.[actionIndex];
+
+      if (!action?.onClick) {
+        return;
+      }
+
+      button.disabled = true;
+
+      try {
+        await action.onClick();
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
 
   overlay.classList.add("is-open");
 }
